@@ -5,6 +5,8 @@ import random
 import requests
 import sqlite3
 import hashlib
+from streamlit_extras.app_logo import add_logo
+from streamlit_extras.badges import badge
 
 # Page config
 st.set_page_config(
@@ -97,15 +99,7 @@ st.markdown("""
         transform: translateY(-2px);
     }
     .streamlit-footer img {
-        width: 30px;
-        height: 30px;
         margin-right: 10px;
-    }
-    .divider {
-        width: 1px;
-        height: 20px;
-        background: #ddd;
-        margin: 0 10px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -261,32 +255,19 @@ else:
     elif choice == 'Daily Motivation':
         st.title('Daily Inspiration ⭐')
         
-        # Static quotes list - no API calls
-        quotes = [
-            {
-                "content": "Success is not final, failure is not fatal: it is the courage to continue that counts.",
-                "author": "Winston Churchill"
-            },
-            {
-                "content": "The future belongs to those who believe in the beauty of their dreams.",
-                "author": "Eleanor Roosevelt"
-            },
-            {
-                "content": "Everything you've ever wanted is on the other side of fear.",
-                "author": "George Addair"
-            }
-        ]
-        
-        # Display quote directly without try/except
-        quote = random.choice(quotes)
-        st.markdown(f"""
-        <div class="quote-box">
-            <h3>"{quote['content']}"</h3>
-            <p>- {quote['author']}</p>
-        </div>
-        """, unsafe_allow_html=True)
+        try:
+            response = requests.get('https://api.quotable.io/random?tags=inspirational')
+            quote = response.json()
+            with st.container():
+                st.markdown(f"""
+                <div class="quote-box">
+                    <h3>"{quote['content']}"</h3>
+                    <p>- {quote['author']}</p>
+                </div>
+                """, unsafe_allow_html=True)
+        except:
+            st.error('Failed to fetch quote. Please try again.')
 
-        # Success stories
         st.subheader('Success Story of the Day 🌟')
         stories = [
             "Sarah struggled with math but kept practicing. Now she's a data scientist!",
@@ -398,11 +379,8 @@ st.markdown("""
 <div class="streamlit-footer">
     <a href="https://streamlit.io" target="_blank" style="text-decoration: none; color: inherit;">
         <img src="https://streamlit.io/images/brand/streamlit-mark-color.png">
-       
+        <span>Built with Streamlit</span>
     </a>
-    <div class="divider"></div>
-  
-      
 
 </div>
 """, unsafe_allow_html=True) 
