@@ -377,8 +377,7 @@ st.markdown("""
 st.markdown("""
 <div class="streamlit-footer">
     <a href="https://streamlit.io" target="_blank" style="text-decoration: none; color: inherit;">
-        <img src="https://streamlit.io/images/brand/streamlit-mark-color.png">
-        <span>Built with Streamlit</span>
+      
     </a>
 
 </div>
