@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Growth Mindset - Daily Motivation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/challenges">Challenges</a>
+        <a href="/daily-motivation">Daily Motivation</a>
+        <a href="/quiz">Quiz</a>
+    </nav>
+    
+    <div class="container">
+        <h1>Daily Motivation</h1>
+        
+        <div class="quote-box">
+            <blockquote>
+                "{{ quote.content }}"
+                <footer>- {{ quote.author }}</footer>
+            </blockquote>
+        </div>
+
+        <div class="success-story">
+            <h2>Success Story of the Day</h2>
+            <p>{{ story }}</p>
+        </div>
+    </div>
+</body>
+</html> 

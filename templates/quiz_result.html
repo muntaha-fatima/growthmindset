@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Growth Mindset - Quiz Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/challenges">Challenges</a>
+        <a href="/daily-motivation">Daily Motivation</a>
+        <a href="/quiz">Quiz</a>
+    </nav>
+    
+    <div class="container">
+        <h1>Your Quiz Results</h1>
+        
+        <div class="result-box">
+            <h2>Your Growth Mindset Score: {{ score }}%</h2>
+            
+            <p class="feedback">
+                {% if score >= 75 %}
+                    Excellent! You show strong signs of a growth mindset!
+                {% elif score >= 50 %}
+                    Good start! You're developing a growth mindset.
+                {% else %}
+                    There's room to develop your growth mindset further.
+                {% endif %}
+            </p>
+            
+            <a href="{{ url_for('quiz') }}" class="button">Take Quiz Again</a>
+        </div>
+    </div>
+</body>
+</html> 

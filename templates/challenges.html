@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Growth Mindset - Challenges</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/challenges">Challenges</a>
+        <a href="/daily-motivation">Daily Motivation</a>
+        <a href="/quiz">Quiz</a>
+    </nav>
+    
+    <div class="container">
+        <h1>Growth Mindset Challenges</h1>
+        
+        <div class="challenges-list">
+            {% for challenge in challenges %}
+            <div class="challenge-card" id="challenge-{{ challenge.id }}">
+                <h3>{{ challenge.title }}</h3>
+                <p>{{ challenge.description }}</p>
+                <span class="difficulty {{ challenge.difficulty.lower() }}">
+                    Difficulty: {{ challenge.difficulty }}
+                </span>
+                <button onclick="markCompleted('{{ challenge.id }}')" class="complete-btn">
+                    Mark as Completed
+                </button>
+                <div class="progress-bar" style="display: none;">
+                    <div class="progress"></div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        function markCompleted(challengeId) {
+            const card = document.getElementById(`challenge-${challengeId}`);
+            const btn = card.querySelector('.complete-btn');
+            const progressBar = card.querySelector('.progress-bar');
+            
+            Swal.fire({
+                title: 'Complete Challenge?',
+                text: 'Have you completed this challenge?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, mark it complete!',
+                cancelButtonText: 'Not yet'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    startProgress();
+                }
+            });
+
+            function startProgress() {
+                btn.disabled = true;
+                progressBar.style.display = 'block';
+                
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += 5;
+                    progressBar.querySelector('.progress').style.width = progress + '%';
+                    
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        completeChallenge();
+                    }
+                }, 50);
+            }
+
+            function completeChallenge() {
+                btn.textContent = '✅ Completed!';
+                btn.classList.add('completed');
+                
+                // Save to localStorage
+                const completed = JSON.parse(localStorage.getItem('completedChallenges') || '[]');
+                completed.push(challengeId);
+                localStorage.setItem('completedChallenges', JSON.stringify(completed));
+
+                // Update streak
+                updateStreak();
+
+                // Show success message
+                Swal.fire({
+                    title: 'Great job!',
+                    text: 'Challenge completed! Keep growing!',
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+                setTimeout(() => {
+                    progressBar.style.display = 'none';
+                }, 500);
+            }
+        }
+
+        function updateStreak() {
+            const today = new Date().toDateString();
+            const lastActive = localStorage.getItem('lastActive');
+            let streak = parseInt(localStorage.getItem('streak') || '0');
+
+            if (lastActive !== today) {
+                if (isConsecutiveDay(lastActive)) {
+                    streak++;
+                } else {
+                    streak = 1;
+                }
+                localStorage.setItem('streak', streak);
+                localStorage.setItem('lastActive', today);
+                updateStreakDisplay(streak);
+            }
+        }
+
+        function isConsecutiveDay(lastActive) {
+            if (!lastActive) return false;
+            const last = new Date(lastActive);
+            const today = new Date();
+            const diffTime = Math.abs(today - last);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays === 1;
+        }
+
+        function updateStreakDisplay(streak) {
+            const streakElement = document.getElementById('streak-count');
+            if (streakElement) {
+                streakElement.textContent = streak;
+                if (streak > 0) {
+                    streakElement.parentElement.style.display = 'block';
+                }
+            }
+        }
+
+        // Initialize on page load
+        window.onload = () => {
+            const completed = JSON.parse(localStorage.getItem('completedChallenges') || '[]');
+            completed.forEach(id => {
+                const btn = document.querySelector(`#challenge-${id} .complete-btn`);
+                if (btn) {
+                    btn.textContent = '✅ Completed!';
+                    btn.classList.add('completed');
+                    btn.disabled = true;
+                }
+            });
+
+            // Add streak display
+            const streak = parseInt(localStorage.getItem('streak') || '0');
+            if (streak > 0) {
+                updateStreakDisplay(streak);
+            }
+        }
+    </script>
+</body>
+</html> 

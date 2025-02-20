@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Growth Mindset - Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/challenges">Challenges</a>
+        <a href="/daily-motivation">Daily Motivation</a>
+        <a href="/quiz">Quiz</a>
+    </nav>
+    
+    <div class="container">
+        <h1>Mindset Quiz</h1>
+        
+        <form method="POST" action="{{ url_for('quiz') }}">
+            {% for question in questions %}
+            <div class="question">
+                <h3>{{ question.question }}</h3>
+                {% for option in question.options %}
+                <div class="option">
+                    <input type="radio" name="q{{ loop.index }}" value="{{ option[0] }}" required>
+                    <label>{{ option[1] }}</label>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            <button type="submit">Submit Quiz</button>
+        </form>
+    </div>
+</body>
+</html> 
