@@ -5,7 +5,7 @@ import random
 import requests
 import sqlite3
 import hashlib
-from streamlit_extras.app_logo import add_logo
+# from streamlit_extras.app_logo import add_logo
 from streamlit_extras.badges import badge
 
 # Page config
