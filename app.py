@@ -389,9 +389,4 @@ st.markdown("""
 
 st.markdown("""
 <div class="streamlit-footer">
-     href="https://streamlit.io" target="_blank" style="text-decoration: none; color: inherit;"
-      
- 
-
-</div>
 """, unsafe_allow_html=True) 
