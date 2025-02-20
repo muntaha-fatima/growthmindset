@@ -261,19 +261,33 @@ else:
     elif choice == 'Daily Motivation':
         st.title('Daily Inspiration ⭐')
         
-        try:
-            response = requests.get('https://api.quotable.io/random?tags=inspirational')
-            quote = response.json()
-            with st.container():
-                st.markdown(f"""
-                <div class="quote-box">
-                    <h3>"{quote['content']}"</h3>
-                    <p>- {quote['author']}</p>
-                </div>
-                """, unsafe_allow_html=True)
-        except:
-            st.error('Failed to fetch quote. Please try again.')
+        # Static quotes list
+        quotes = [
+            {
+                "content": "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+                "author": "Winston Churchill"
+            },
+            {
+                "content": "The future belongs to those who believe in the beauty of their dreams.",
+                "author": "Eleanor Roosevelt"
+            },
+            {
+                "content": "Everything you've ever wanted is on the other side of fear.",
+                "author": "George Addair"
+            }
+        ]
+        
+        # Always show a quote - no error message
+        quote = random.choice(quotes)
+        with st.container():
+            st.markdown(f"""
+            <div class="quote-box">
+                <h3>"{quote['content']}"</h3>
+                <p>- {quote['author']}</p>
+            </div>
+            """, unsafe_allow_html=True)
 
+        # Success stories without try/except
         st.subheader('Success Story of the Day 🌟')
         stories = [
             "Sarah struggled with math but kept practicing. Now she's a data scientist!",
