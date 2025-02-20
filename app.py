@@ -28,7 +28,7 @@ st.markdown("""
     }
     .success-message {
         padding: 1rem;
-        background-color: #d4edda;
+        background-color:rgb(212, 215, 237);
         color: #155724;
         border-radius: 4px;
         margin: 1rem 0;
