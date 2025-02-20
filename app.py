@@ -6,8 +6,6 @@ import requests
 import sqlite3
 import hashlib
 
-from streamlit_extras.badges import badge
-
 # Page config
 st.set_page_config(
     page_title="Growth Mindset App",
