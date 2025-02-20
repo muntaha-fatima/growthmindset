@@ -261,7 +261,7 @@ else:
     elif choice == 'Daily Motivation':
         st.title('Daily Inspiration ⭐')
         
-        # Static quotes list
+        # Static quotes list - no API calls
         quotes = [
             {
                 "content": "Success is not final, failure is not fatal: it is the courage to continue that counts.",
@@ -277,17 +277,16 @@ else:
             }
         ]
         
-        # Always show a quote - no error message
+        # Display quote directly without try/except
         quote = random.choice(quotes)
-        with st.container():
-            st.markdown(f"""
-            <div class="quote-box">
-                <h3>"{quote['content']}"</h3>
-                <p>- {quote['author']}</p>
-            </div>
-            """, unsafe_allow_html=True)
+        st.markdown(f"""
+        <div class="quote-box">
+            <h3>"{quote['content']}"</h3>
+            <p>- {quote['author']}</p>
+        </div>
+        """, unsafe_allow_html=True)
 
-        # Success stories without try/except
+        # Success stories
         st.subheader('Success Story of the Day 🌟')
         stories = [
             "Sarah struggled with math but kept practicing. Now she's a data scientist!",
